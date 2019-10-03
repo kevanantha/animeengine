@@ -1,8 +1,5 @@
 $(document).ready(function() {
-  console.log('ready')
-  // axios({
-    
-  // })
+  afterAuth()
 })
 
 function onSignIn(googleUser) {
@@ -14,8 +11,9 @@ function onSignIn(googleUser) {
       token: id_token
     }
   })
-    .then((res) => {
-      console.log(res)
+    .then(({ data }) => {
+      localStorage.setItem('token', data.token)
+      afterAuth()
     })
     .catch(err => {
       swal.showValidationMessage(err)
@@ -27,4 +25,69 @@ function signOut() {
   auth2.signOut().then(function() {
     console.log('User signed out.')
   })
+  localStorage.removeItem('token')
+  afterAuth()
+  $('#email').val('')
+  $('#password').val('')
+}
+
+function afterAuth() {
+  if (localStorage.getItem('token')) {
+    $('.login').hide()
+    $('.content').show()
+  } else {
+    $('.login').show()
+    $('.content').hide()
+  }
+}
+
+$('#formLogin').on('submit', function(e) {
+  e.preventDefault()
+  swal.fire({
+    title: 'Logging in',
+    onOpen: () => {
+      swal.showLoading()
+    }
+  })
+  axios({
+    method: 'post',
+    url: 'http://localhost:3000/users/register',
+    data: {
+      email: $('#email').val(),
+      password: $('#password').val(),
+    }
+  })
+    .then((res) => {
+      localStorage.setItem('token', res.data.token)
+      afterAuth()
+      swal.close()
+    })
+    .catch(err => {
+      console.log(err)
+    })
+})
+
+function login() {
+  swal.fire({
+    title: 'Logging in',
+    onOpen: () => {
+      swal.showLoading()
+    }
+  })
+  axios({
+    method: 'post',
+    url: 'http://localhost:3000/users/login',
+    data: {
+      email: $('#email').val(),
+      password: $('#password').val(),
+    }
+  })
+    .then((res) => {
+      localStorage.setItem('token', res.data.token)
+      afterAuth()
+      swal.close()
+    })
+    .catch(err => {
+      console.log(err)
+    })
 }
