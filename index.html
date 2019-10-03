@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css">
 
-    <title>Hello, world!</title>
+    <title>Anime Engine</title>
   </head>
   <body>
 
@@ -48,10 +48,10 @@
       </div>
     </nav>
 
-    <div class="container">
+    <div class="container" style="height: 50vh">
 
-      <div class="login card text-center">
-        <h2>Login</h2>
+      <div class="login card text-center" style="margin-top: 15rem; padding: 5rem 3rem">
+        <h2 style="margin-bottom: 3rem">Login</h2>
         <form>
           <div class="form-group row justify-content-center">
             <div class="col-sm-6">
@@ -69,20 +69,21 @@
             </div>
           </div><br>
           <div class="form-group row justify-content-center">
-            <div class="col-sm-6">
+            <div>
               <p class="small">Have Google acount?</p>
-              <div class="g-signin2" data-onsuccess="onSignIn"></div>
+              <div class="g-signin2" style="margin: auto" data-onsuccess="onSignIn"></div>
+              <div class="btn btn-danger" style="margin: auto" onclick="signOut()">Sign out</div>
             </div>
           </div>
         </form>
     </div>
     
-    <script src="./js/main.js"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./js/main.js"></script>
   </body>
 </html>
