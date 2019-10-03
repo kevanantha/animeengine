@@ -14,6 +14,12 @@ function onSignIn(googleUser) {
     .then(({ data }) => {
       localStorage.setItem('token', data.token)
       afterAuth()
+      Swal.fire({
+        type: 'success',
+        title: 'Logged in successfully',
+        showConfirmButton: false,
+        timer: 1500
+      })
     })
     .catch(err => {
       swal.showValidationMessage(err)
@@ -23,12 +29,17 @@ function onSignIn(googleUser) {
 function signOut() {
   const auth2 = gapi.auth2.getAuthInstance()
   auth2.signOut().then(function() {
-    console.log('User signed out.')
+    localStorage.removeItem('token')
+    afterAuth()
+    $('#email').val('')
+    $('#password').val('')
+    Swal.fire({
+      type: 'success',
+      title: 'Logged out successfully',
+      showConfirmButton: false,
+      timer: 1500
+    })
   })
-  localStorage.removeItem('token')
-  afterAuth()
-  $('#email').val('')
-  $('#password').val('')
 }
 
 function afterAuth() {
@@ -41,10 +52,10 @@ function afterAuth() {
   }
 }
 
-$('#formLogin').on('submit', function(e) {
+$('#formRegister').on('submit', function(e) {
   e.preventDefault()
   swal.fire({
-    title: 'Logging in',
+    title: 'Creating Account',
     onOpen: () => {
       swal.showLoading()
     }
@@ -61,33 +72,14 @@ $('#formLogin').on('submit', function(e) {
       localStorage.setItem('token', res.data.token)
       afterAuth()
       swal.close()
+      Swal.fire({
+        type: 'success',
+        title: 'Logged out successfully',
+        showConfirmButton: false,
+        timer: 1500
+      })
     })
     .catch(err => {
-      console.log(err)
+      swal.showValidationMessage(err.message)
     })
 })
-
-function login() {
-  swal.fire({
-    title: 'Logging in',
-    onOpen: () => {
-      swal.showLoading()
-    }
-  })
-  axios({
-    method: 'post',
-    url: 'http://localhost:3000/users/login',
-    data: {
-      email: $('#email').val(),
-      password: $('#password').val(),
-    }
-  })
-    .then((res) => {
-      localStorage.setItem('token', res.data.token)
-      afterAuth()
-      swal.close()
-    })
-    .catch(err => {
-      console.log(err)
-    })
-}
