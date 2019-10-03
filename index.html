@@ -8,10 +8,10 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css">
-
+    
     <title>Anime Engine</title>
   </head>
-  <body>
+  <body style="background: #0000">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Anime Engine</a>
@@ -51,9 +51,9 @@
     </nav>
 
     <section class="login">
-      <div class="container" style="height: 50vh">
-        <div class="card text-center" style="margin-top: 15rem; padding: 5rem 3rem">
-          <h2 style="margin-bottom: 3rem">Login</h2>
+      <div class="container" style="height: 50vh; width: 55%;color: white;display: block">
+        <div class="card text-center" style="margin-top: 7rem; padding: 5rem 3rem; background: url(bg.jpg)">
+          <h2 style="margin-bottom: 3rem">Sign In</h2>
           <form id="formLogin">
             <div class="form-group row justify-content-center">
               <div class="col-sm-6">
@@ -67,7 +67,7 @@
             </div>
             <div class="form-group row justify-content-center">
               <div class="col-sm-6">
-                <button type="submit" id="login" class="btn btn-block btn-primary" >Login</button>
+                <button type="submit" id="login" class="btn btn-block btn-primary">Sign in</button>
               </div>
             </div><br>
             <div class="form-group row justify-content-center">
@@ -77,8 +77,42 @@
               </div>
             </div>
           </form>
-        </div>
+          <div class="form-group row justify-content-center">
+              <div>
+                  <p class="small">OR</p>
+                  <button class="small col btn-primary btn-sm" style="text-decoration: none" onclick="signUpForm()">Sign Up</button>
+              </div>
+            </div>
       </div>
+    </section>
+
+    <section class="register" style=" display: none">
+        <div class="container" style="height: 50vh; width: 60%;color: white;">
+            <div class="card text-center" style="margin-top: 7rem; padding: 5rem 3rem; background: url(bg.jpg)">
+              <h2 style="margin-bottom: 3rem">Sign Up</h2>
+              <form id="formRegister">
+                <div class="form-group row justify-content-center">
+                  <div class="col-sm-6">
+                    <input type="email" class="form-control" id="emailRegis" placeholder="Email">
+                  </div>
+                </div>
+                <div class="form-group row justify-content-center">
+                  <div class="col-sm-6">
+                    <input type="password" class="form-control" id="passwordRegis" placeholder="Password">
+                  </div>
+                </div><br>
+                <div class="form-group row justify-content-center">
+                  <div class="col-sm-4">
+                    <button type="submit" id="login" class="btn btn-block btn-primary" >Create Account</button>
+                  </div>
+                </div><br>
+                <div class="form-group row justify-content-center">
+                    <div>
+                      <p class="small">Have Google acount?</p>
+                      <div class="g-signin2" style="margin: auto" data-onsuccess="onSignIn"></div>
+                    </div>
+                  </div>
+              </form>
     </section>
 
     <section class="content">

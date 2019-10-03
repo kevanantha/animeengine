@@ -46,6 +46,7 @@ function afterAuth() {
   if (localStorage.getItem('token')) {
     $('.login').hide()
     $('.content').show()
+    $('#formRegister').hide()
   } else {
     $('.login').show()
     $('.content').hide()
@@ -64,8 +65,8 @@ $('#formRegister').on('submit', function(e) {
     method: 'post',
     url: 'http://localhost:3000/users/register',
     data: {
-      email: $('#email').val(),
-      password: $('#password').val(),
+      email: $('#emailRegis').val(),
+      password: $('#passwordRegis').val(),
     }
   })
     .then((res) => {
@@ -83,3 +84,34 @@ $('#formRegister').on('submit', function(e) {
       swal.showValidationMessage(err.message)
     })
 })
+
+$('#formLogin').on('submit', function(e) {
+  e.preventDefault()
+  swal.fire({
+    title: 'Logging in',
+    onOpen: () => {
+      swal.showLoading()
+    }
+  })
+  axios({
+    method: 'post',
+    url: 'http://localhost:3000/users/login',
+    data: {
+      email: $('#email').val(),
+      password: $('#password').val(),
+    }
+  })
+    .then((res) => {
+      localStorage.setItem('token', res.data.token)
+      afterAuth()
+      swal.close()
+    })
+    .catch(err => {
+      console.log(err)
+    })
+})
+
+function signUpForm(){
+  $('.login').hide()
+  $('.register').css('display', 'block')
+}
