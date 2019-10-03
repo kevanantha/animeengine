@@ -4,6 +4,14 @@ $(document).ready(function() {
 
 function onSignIn(googleUser) {
   const id_token = googleUser.getAuthResponse().id_token;
+
+  swal.fire({
+    title: 'Logging In',
+    onOpen: () => {
+      swal.showLoading()
+    }
+  })
+
   axios({
     method: 'post',
     url: 'http://localhost:3000/users/gsignin',
@@ -88,7 +96,7 @@ $('#formRegister').on('submit', function(e) {
 $('#formLogin').on('submit', function(e) {
   e.preventDefault()
   swal.fire({
-    title: 'Logging in',
+    title: 'Logging In',
     onOpen: () => {
       swal.showLoading()
     }
