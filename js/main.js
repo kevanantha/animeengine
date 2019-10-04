@@ -42,7 +42,10 @@ function home() {
       swal.close()
     })
     .catch(err => {
-      swal.showValidationMessage(err.message)
+      swal.fire({
+        title: `${err.response.data}`,
+        showCloseButton: true
+      })
     })
 }
 
@@ -124,7 +127,10 @@ function detail(id) {
       swal.close()
     })
     .catch(err => {
-      console.log(err)
+      swal.fire({
+        title: `${err.response.data}`,
+        showCloseButton: true
+      })
     })
 }
 
@@ -316,7 +322,10 @@ function detailKitsu(id) {
       }
     })
     .catch(err => {
-      console.log(err)
+      swal.fire({
+        title: `${err.response.data}`,
+        showCloseButton: true
+      })
     })
 }
 
@@ -344,7 +353,10 @@ function onSignIn(googleUser) {
       home()
     })
     .catch(err => {
-      swal.showValidationMessage(err)
+      swal.fire({
+        title: `${err.response.data}`,
+        showCloseButton: true
+      })
     })
 }
 
@@ -356,8 +368,9 @@ function signOut() {
   })
   $('#email').val('')
   $('#password').val('')
-  // $('#content-anime-detail').empty()
+  $('#content-anime-detail').empty()
   $('#content').empty()
+  // $('#content').empty()
   Swal.fire({
     type: 'success',
     title: 'Logged out successfully',
@@ -389,7 +402,11 @@ $('#formRegister').on('submit', function(e) {
       home()
     })
     .catch(err => {
-      swal.showValidationMessage(err.message)
+      // err.response.data.join('\n')
+      swal.fire({
+        title: `${err.response.data.join('\n')}`,
+        showCloseButton: true
+      })
     })
 })
 
@@ -416,7 +433,10 @@ $('#formLogin').on('submit', function(e) {
       home()
     })
     .catch(err => {
-      swal.showValidationMessage(err.message)
+      swal.fire({
+        title: `${err.response.data}`,
+        showCloseButton: true
+      })
     })
 })
 
@@ -439,11 +459,9 @@ function searchAnime() {
     $('#content').show()
     Swal.close()
   }).catch(err => {
-    console.log(err)
-    Swal.fire({
-      type: 'error',
-      title: 'Something went wrong',
-      text: err
+    swal.fire({
+      title: `${err.response.data}`,
+      showCloseButton: true
     })
   })
 }
