@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="google-signin-client_id" content="25401005977-ok03n82ko5ihlv14h2jacbsf0b4bgmta.apps.googleusercontent.com">
+
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker|Rock+Salt&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css">
+    
+    <script src="https://kit.fontawesome.com/396f3f0150.js"></script>
+    <title>Anime Engine</title>
+  </head>
+  <body style="background: #0000">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+      <div class="navbar-brand" style="cursor: pointer; color: white;font-family: 'Rock Salt', cursive;" onclick="backToHome()">Anime Engine</div>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+        </ul>
+        <div class="form-inline my-2 my-lg-0">
+          <div class="search-anime">
+            <input class="form-control mr-sm-2" type="search" id="search-anime" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" onclick="searchAnime()">Search</button>
+          </div>
+          <button type="button" class="btn btn-outline-danger content" style="margin-left: 1rem" onclick="signOut()">Logout</button>
+        </div>
+      </div>
+    </nav>
+
+    <section class="login">
+      <div class="container" style="height: 50vh; width: 55%; color: white;">
+        <div class="card text-center" style="margin-top: 7rem; padding: 5rem 3rem; background: url(bg.jpg)">
+          <h2 style="margin-bottom: 3rem;font-family: 'Permanent Marker'">Sign In</h2>
+          <form id="formLogin">
+            <div class="form-group row justify-content-center">
+              <div class="col-sm-6">
+                <input type="email" class="form-control" id="email" placeholder="Email">
+              </div>
+            </div>
+            <div class="form-group row justify-content-center">
+              <div class="col-sm-6">
+                <input type="password" class="form-control" id="password" placeholder="Password">
+              </div>
+            </div>
+            <br>
+            <div class="form-group row justify-content-center">
+              <div class="col-sm-4">
+                <button type="submit" id="login" class="login btn btn-block btn-primary">Sign in</button>
+              </div>
+            </div>
+            <br>
+            <div class="form-group row justify-content-center">
+              <div>
+                <p class="small">Have Google acount?</p>
+                <div class="g-signin2" style="margin: auto" data-onsuccess="onSignIn"></div>
+              </div>
+            </div>
+          </form>
+          <div class="form-group row justify-content-center">
+            <div>
+              <p class="small">OR</p>
+              <button class="btn btn-primary" onclick="signUpForm()">Sign Up</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="register">
+      <div class="container" style="height: 50vh; width: 55%; color: white;">
+        <div class="card text-center" style="margin-top: 7rem; padding: 5rem 3rem; background: url(bg.jpg)">
+          <h2 style="margin-bottom: 3rem;font-family: 'Permanent Marker'">Sign Up</h2>
+          <form id="formRegister">
+            <div class="form-group row justify-content-center">
+              <div class="col-sm-6">
+                <input type="email" class="form-control" id="emailRegis" placeholder="Email">
+              </div>
+            </div>
+            <div class="form-group row justify-content-center">
+              <div class="col-sm-6">
+                <input type="password" class="form-control" id="passwordRegis" placeholder="Password">
+              </div>
+            </div>
+            <br>
+            <div class="form-group row justify-content-center">
+              <div class="col-sm-4">
+                <button type="submit" id="register" class="btn btn-block btn-primary">Create Account</button>
+              </div>
+            </div><br>
+            <div class="form-group row justify-content-center">
+              <div>
+                <p class="small">Have Google acount?</p>
+                <div class="g-signin2" style="margin: auto" data-onsuccess="onSignIn"></div>
+              </div>
+            </div>
+          </form>
+          <div class="form-group row justify-content-center">
+            <div>
+              <p class="small">OR</p>
+              <button class="btn btn-primary" onclick="signInForm()">Sign In</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content" id="content-section">
+      <div class="container">
+        <h1 class="text-center title" style="margin: 2rem 0;font-family: 'Permanent Marker', cursive;">Upcoming Animes</h1>
+        <div class="row" id="content"></div>
+      </div>
+    </section>
+
+    <section id="content-anime-detail-section">
+      <div class="container">
+          <h1 class="text-center title" style="margin: 2rem 0; font-family: 'Permanent Marker', cursive;">Anime Detail</h1>
+        <div class="row" id="content-anime-detail">
+        </div>
+      </div>
+    </section>
+    
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./js/main.js"></script>
+  </body>
+</html>
