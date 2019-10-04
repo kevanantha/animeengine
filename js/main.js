@@ -8,8 +8,9 @@ function isAuth() {
     $('.login').hide()
     $('.register').hide()
     $('.content').show()
-    home()
+    $('.search-anime').show()
   } else {
+    $('.search-anime').hide()
     $('.login').show()
     $('.register').hide()
     $('.content').hide()
@@ -45,7 +46,7 @@ function home() {
 function animeCard(res) {
   return `
     <div class="col-md-6">
-      <div class="card mb-3" style="max-width: 540px;">
+      <div class="card mb-3" style="max-width: 540px;padding:5px;">
         <div class="row no-gutters">
           <div class="col-md-4">
             <img src="${res.image_url}" class="card-img" alt="${res.title}">
@@ -58,11 +59,9 @@ function animeCard(res) {
               </h5>
               <p class="card-text">${res.synopsis ? res.synopsis : ''}</p>
               <p class="card-text"><small class="text-muted">Start Date: ${res.start_date ? res.start_date : 'N/A'}</small></p>
+              <button style="width:25%;position:absolute;bottom:10px;" class="btn btn-sm btn-primary btn-block" onclick="detail(${res.mal_id})">Detail</button>
             </div>
-          </div>
-
-          <button class="btn btn-primary btn-block" onclick="detail(${res.mal_id})">Detail</button>
-
+            </div>
         </div>
       </div>
     </div>
@@ -71,33 +70,33 @@ function animeCard(res) {
 
 function animeCardDetail(res) {
   return `
-    <button class="btn btn-primary btn-lg" style="cursor: pointer; margin: 2rem 0;" onclick="backToHome()">Back</button>
-    <div class="col-md-12">
-      <div class="card" style="min-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="${res.image_url}" class="card-img" alt="${res.title}">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body" style="padding: 3rem">
-              <h5 class="card-title">
-                <a href="${res.url}">${res.title}</a>
-                <p class="card-text"><small class="text-muted">${res.title_japanese}</small></p>
-              </h5>
-              <p class="card-text">${res.synopsis ? res.synopsis : ''}</p>
-              <p class="card-text">Type: ${res.type ? res.type : ''}</p>
-              <p class="card-text">Status: ${res.status ? res.status : ''}</p>
-              <p class="card-text">Duration: ${res.duration ? res.duration : ''}</p>
-              <p class="card-text">Rating: ${res.rating ? res.rating : ''}</p>
-              <p class="card-text">Genres: ${res.genres.map(genre => genre.name)}</p>
-              <p class="card-text">Opening Themes: ${res.opening_themes.length ? res.opening_themes.map(opening => opening.name) : 'N/A'}</p>
-              <p class="card-text">Ending Themes: ${res.ending_themes.length ? res.ending_themes.map(ending => ending.name) : 'N/A'}</p>
-              <p class="card-text"><small class="text-muted">Start Date: ${res.start_date ? res.start_date : 'N/A'}</small></p>
-            </div>
+  <div class="col-md-12">
+  <button class="btn btn-outline-primary btn-md" style="cursor: pointer; margin: 2rem 0;width:10%" onclick="backToHome()">Back</button>
+    <div class="card" style="min-width: 540px;padding:10px;">
+      <div class="row no-gutters">
+        <div class="col-md-4">
+          <img src="${res.image_url}" class="card-img" alt="${res.title}">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body" style="padding: 3rem; padding-top:2px">
+            <h5 class="card-title">
+              <a href="${res.url}"><h2>${res.title}</h2></a>
+              <p class="card-text"><small class="text-muted">${res.title_japanese}</small></p>
+            </h5><br>
+            <p class="card-text">${res.synopsis ? res.synopsis : ''}</p>
+            <p class="card-text">Type: ${res.type ? res.type : ''}</p>
+            <p class="card-text">Status: ${res.status ? res.status : ''}</p>
+            <p class="card-text">Duration: ${res.duration ? res.duration : ''}</p>
+            <p class="card-text">Rating: ${res.rating ? res.rating : ''}</p>
+            <p class="card-text">Genres: ${res.genres.map(genre => genre.name)}</p>
+            <p class="card-text">Opening Themes: ${res.opening_themes.length ? res.opening_themes.map(opening => opening.name) : 'N/A'}</p>
+            <p class="card-text">Ending Themes: ${res.ending_themes.length ? res.ending_themes.map(ending => ending.name) : 'N/A'}</p>
+            <p class="card-text"><small class="text-muted">Start Date: ${res.start_date ? res.start_date : 'N/A'}</small></p>
           </div>
         </div>
       </div>
     </div>
+  </div>
   `
 }
 
