@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/396f3f0150.js"></script>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-12" style="width:33vw;">
+            <h1 class="border-bottom text-center">480p</h1>
+            <div class="d-flex flex-column align-items-stretch" id="480p">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-folder mx-4"></i>
+                    <a href="#" class="flex-grow-1">Title Title Title Title Title</a>
+                    <span class="mr-2 text-primary">S</span>
+                    <i class="fas fa-arrow-up mr-2 text-primary"></i>
+                    <span class="text-primary mr-3">8</span>
+                    <span class="mr-2 text-danger">L</span>
+                    <i class="fas fa-arrow-down mr-2 text-danger"></i>
+                    <span class="mx-2 text-danger">0</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <h1 class="border-bottom text-center">720p</h1>
+            <div class="d-flex flex-column align-items-stretch" id="720p">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-folder mx-4"></i>
+                    <span class="flex-grow-1">Title</span>
+                    <span class="mr-2 text-primary">S</span>
+                    <i class="fas fa-arrow-up mr-2 text-primary"></i>
+                    <span class="text-primary mr-3">8</span>
+                    <span class="mr-2 text-danger">L</span>
+                    <i class="fas fa-arrow-down mr-2 text-danger"></i>
+                    <span class="mx-2 text-danger">0</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <h1 class="border-bottom text-center">1080p</h1>
+            <div class="d-flex flex-column align-items-stretch" id="1080p">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-folder mx-4"></i>
+                    <span class="flex-grow-1">Title</span>
+                    <span class="mr-2 text-primary">S</span>
+                    <i class="fas fa-arrow-up mr-2 text-primary"></i>
+                    <span class="text-primary mr-3">8</span>
+                    <span class="mr-2 text-danger">L</span>
+                    <i class="fas fa-arrow-down mr-2 text-danger"></i>
+                    <span class="mx-2 text-danger">0</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script>
+        const host = "http://172.16.11.114:3000/pantsu"
+
+        $(document).ready(() => {
+            getTorrents('Re:Zero kara Hajimeru Isekai Seikatsu', '480p')
+            getTorrents('Re:Zero kara Hajimeru Isekai Seikatsu', '720p')
+            getTorrents('Re:Zero kara Hajimeru Isekai Seikatsu', '1080p')
+        })
+
+        function getTorrents(title, resolution) {
+            axios.get(`${host}/?q=${title}?&resolution=${resolution}`)
+                .then(({ data }) => {
+                    if (data) {
+                        tableConstructor(data, resolution)
+                    } else {
+                        $(`#${resolution}`).empty().append('No Data')
+                    }
+                }).catch((err) => {
+                    Swal.fire({
+                        type: 'error',
+                        text: err
+                    })
+                });
+        }
+
+        function tableConstructor(data, resolution) {
+            $(`#${resolution}`).empty()
+            data.forEach(el => $(`#${resolution}`).append(tableComponents(el)))
+        }
+
+        function tableComponents({ name, magnet, seeders, leechers }) {
+            console.log(name)
+            name = name.replace('[HorribleSubs] ', "")
+                .replace(/\s\[\d*p\]/g, "")
+            return `
+                <div class="row align-items-center pl-3">
+                    <i class="col-1 fas fa-folder"></i>
+                    <a href="${magnet}" class="col-7">${name}</a>
+                    <div class="col-1 d-flex justify-content-between align-items-center">
+                        <span class="text-primary mr-4 col-8">Seeders</span>
+                        <i class="fas fa-arrow-up text-primary col-2"></i>
+                        <span class="text-primary col-2">${seeders}</span>
+                    </div>
+                    <div class="col-1"></div>
+                    <div class="col-1 d-flex justify-content-between align-items-center">
+                        <span class="text-danger mr-4 col-8">Leechers</span>
+                        <i class="fas fa-arrow-down text-danger col-2"></i>
+                        <span class="text-danger col-2">${leechers}</span>
+                        </div>
+                    <div class="col-1"></div>
+                </div>
+            `
+        }
+    </script>
+</body>
+
+</html>
