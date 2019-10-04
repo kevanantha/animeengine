@@ -14,13 +14,13 @@ function isAuth() {
     $('.login').show()
     $('.register').hide()
     $('.content').hide()
-    $('#upcomingText').hide()
+    $('.title').hide()
     $('#content-detail').hide()
   }
 }
 
 function home() {
-  $('#upcomingText').hide()
+  $('.title').hide()
   swal.fire({
     title: 'Fecthing Anime',
     onOpen: () => {
@@ -32,7 +32,7 @@ function home() {
     url: 'http://localhost:3000/home'
   })
     .then(({ data }) => {
-      $('#upcomingText').show()
+      $('.title').show()
       swal.close()
       data.map(res => {
         $('#content').append(animeCard(res))
@@ -101,8 +101,9 @@ function animeCardDetail(res) {
 }
 
 function detail(id) {
-  $('#upcomingText').hide()
+  $('.title').hide()
   $('#content-section').hide()
+  $('.title').show()
   swal.fire({
     title: 'Fecthing Detail',
     onOpen: () => {
@@ -116,6 +117,64 @@ function detail(id) {
   })
     .then(({ data }) => {
       $('#content-anime-detail').append(animeCardDetail(data))
+      $('#content-anime-detail').show()
+      swal.close()
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
+function animeCardDetailKitsu(data) {
+  const { attributes: res } = data
+  return `
+    <button class="btn btn-outline-primary btn-md" style="cursor: pointer; margin: 2rem 0; width: 10%" onclick="backToHome()">Back</button>
+    <div class="col-md-12">
+      <div class="card" style="min-width: 540px;">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="${res.posterImage.original}" class="card-img" alt="${res.titles.en}">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body" style="padding: 3rem">
+              <h5 class="card-title">
+                ${res.titles.en}
+                <p class="card-text"><small class="text-muted">${res.titles.ja_jp}</small></p>
+              </h5>
+              <p class="card-text">${res.synopsis ? res.synopsis : ''}</p>
+              <p class="card-text">Average Rating: ${res.averageRating ? res.averageRating : 'N/A'}</p>
+              <p class="card-text">Start Date: ${res.startDate ? res.startDate : 'N/A'}</p>
+              <p class="card-text">End Date: ${res.endDate ? res.endDate : 'N/A'}</p>
+              <p class="card-text">Type: ${res.subtype ? res.subtype : 'N/A'}</p>
+              <p class="card-text">Next Release: ${res.nextRelease ? res.nextRelease : 'N/A'}</p>
+              <p class="card-text">Status: ${res.status ? res.status : 'N/A'}</p>
+              <p class="card-text">User: ${res.userCount ? res.userCount : 'N/A'}</p>
+              <p class="card-text">Favorites: ${res.favoritesCount ? res.favoritesCount : 'N/A'}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+function detailKitsu(id) {
+  $('.title').hide()
+  $('#content-section').hide()
+  swal.fire({
+    title: 'Fecthing Detail',
+    onOpen: () => {
+      swal.showLoading()
+    }
+  })
+  axios({
+    method: 'get',
+    url: `http://localhost:3000/kitsu/anime/${id}`,
+    data: { id }
+  })
+    .then(({ data }) => {
+      $('.title').show()
+      $('#content-anime-detail').append(animeCardDetailKitsu(data))
       $('#content-anime-detail').show()
       swal.close()
     })
@@ -191,7 +250,7 @@ $('#formRegister').on('submit', function(e) {
       swal.close()
       Swal.fire({
         type: 'success',
-        title: 'Logged out successfully',
+        title: 'Logged in successfully',
         showConfirmButton: false,
         timer: 1500
       })
@@ -228,7 +287,7 @@ $('#formLogin').on('submit', function(e) {
 })
 
 function searchAnime() {
-  $('#upcomingText').hide()
+  $('.title').hide()
   $('#content').empty()
   Swal.fire({
     title: "Fetching Anime",
@@ -272,7 +331,7 @@ function generateCard(data) {
         </div>
       </div>
       <div class="mb-3 px-5">
-        <button class="btn btn-primary btn-block">Detail</button>
+        <button class="btn btn-primary btn-block" onclick="detailKitsu(${data.id})">Detail</button>
       </div>
     </div>
   </div>`
@@ -289,6 +348,7 @@ function signInForm() {
 }
 
 function backToHome() {
+  $('.title').hide()
   $('#content-anime-detail').empty()
   $('#content').empty()
   home()
