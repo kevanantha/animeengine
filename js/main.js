@@ -396,6 +396,8 @@ $('#formRegister').on('submit', function(e) {
     }
   })
     .then((res) => {
+      $('#emailRegis').val('')
+      $('#passwordRegis').val('')
       localStorage.setItem('token', res.data.token)
       isAuth()
       swal.close()
