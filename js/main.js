@@ -1,6 +1,9 @@
 $(document).ready(function() {
   isAuth()
   // home()
+  if (localStorage.getItem('token')) {
+    home()
+  }
 })
 
 function isAuth() {
@@ -33,10 +36,10 @@ function home() {
   })
     .then(({ data }) => {
       $('.title').show()
-      swal.close()
       data.map(res => {
         $('#content').append(animeCard(res))
       })
+      swal.close()
     })
     .catch(err => {
       swal.showValidationMessage(err.message)
@@ -155,6 +158,19 @@ function animeCardDetailKitsu(data) {
         </div>
       </div>
     </div>
+
+    <div class="col-12" style="width:33vw;">
+      <h1 class="border-bottom text-center">480p</h1>
+      <div class="d-flex flex-column align-items-stretch" id="480p"></div>
+    </div>
+    <div class="col-12" style="width:33vw;">
+      <h1 class="border-bottom text-center">720p</h1>
+      <div class="d-flex flex-column align-items-stretch" id="720p"></div>
+    </div>
+    <div class="col-12" style="width:33vw;">
+      <h1 class="border-bottom text-center">1080p</h1>
+      <div class="d-flex flex-column align-items-stretch" id="1080p"></div>
+    </div>
   `
 }
 
@@ -167,16 +183,137 @@ function detailKitsu(id) {
       swal.showLoading()
     }
   })
+
+  let title
+
   axios({
     method: 'get',
     url: `http://localhost:3000/kitsu/anime/${id}`,
     data: { id }
   })
     .then(({ data }) => {
+      title = data.attributes.canonicalTitle
       $('.title').show()
       $('#content-anime-detail').append(animeCardDetailKitsu(data))
       $('#content-anime-detail').show()
       swal.close()
+      return axios({
+        method: 'get',
+        url: `http://localhost:3000/pantsu/?q=${title}&resolution=480p`
+      })
+    })
+    .then(({ data }) => {
+      if (!data.length) {
+        $('#480p').append(`
+          <div class="alert alert-dark text-center">
+            NO DATA
+          </div>
+        `)
+      } else {
+        data.forEach(el => {
+          let { name, magnet, seeders, leechers } = el
+          name = name.replace('[HorribleSubs] ', "")
+            .replace(/\s\[\d*p\]/g, "")
+
+          $('#480p').append(`
+            <div class="row align-items-center pl-3">
+            <i class="col-1 fas fa-folder"></i>
+            <a href="${magnet}" class="col-7">${name}</a>
+            <div class="col-1 d-flex justify-content-between align-items-center">
+              <span class="text-primary mr-4 col-8">Seeders</span>
+              <i class="fas fa-arrow-up text-primary col-2"></i>
+              <span class="text-primary col-2">${seeders}</span>
+              </div>
+            <div class="col-1"></div>
+            <div class="col-1 d-flex justify-content-between align-items-center">
+              <span class="text-danger mr-4 col-8">Leechers</span>
+              <i class="fas fa-arrow-down text-danger col-2"></i>
+              <span class="text-danger col-2">${leechers}</span>
+              </div>
+            <div class="col-1"></div>
+            </div>
+        `)
+        })
+      }
+
+      return axios({
+        method: 'get',
+        url: `http://localhost:3000/pantsu/?q=${title}&resolution=720p`
+      })
+    })
+    .then(({ data }) => {
+      if (!data.length) {
+        $('#720p').append(`
+          <div class="alert alert-dark text-center" role="alert">
+            NO DATA
+          </div>
+        `)
+      } else {
+        data.forEach(el => {
+          let { name, magnet, seeders, leechers } = el
+          name = name.replace('[HorribleSubs] ', "")
+            .replace(/\s\[\d*p\]/g, "")
+
+          $('#720p').append(`
+            <div class="row align-items-center pl-3">
+              <i class="col-1 fas fa-folder"></i>
+              <a href="${magnet}" class="col-7">${name}</a>
+              <div class="col-1 d-flex justify-content-between align-items-center">
+                <span class="text-primary mr-4 col-8">Seeders</span>
+                <i class="fas fa-arrow-up text-primary col-2"></i>
+                <span class="text-primary col-2">${seeders}</span>
+                </div>
+              <div class="col-1"></div>
+              <div class="col-1 d-flex justify-content-between align-items-center">
+                <span class="text-danger mr-4 col-8">Leechers</span>
+                <i class="fas fa-arrow-down text-danger col-2"></i>
+                <span class="text-danger col-2">${leechers}</span>
+                </div>
+              <div class="col-1"></div>
+              </div>
+          `)
+      })
+      }
+
+
+      return axios({
+        method: 'get',
+        url: `http://localhost:3000/pantsu/?q=${title}&resolution=720p`
+      })
+    })
+    .then(({ data }) => {
+      if (!data.length) {
+        $('#1080p').append(`
+          <div class="alert alert-dark text-center" role="alert">
+            NO DATA
+          </div>
+        `)
+      } else {
+        data.forEach(el => {
+          let { name, magnet, seeders, leechers } = el
+          name = name.replace('[HorribleSubs] ', "")
+            .replace(/\s\[\d*p\]/g, "")
+
+          $('#1080p').append(`
+            <div class="row align-items-center pl-3">
+            <i class="col-1 fas fa-folder"></i>
+            <a href="${magnet}" class="col-7">${name}</a>
+            <div class="col-1 d-flex justify-content-between align-items-center">
+              <span class="text-primary mr-4 col-8">Seeders</span>
+              <i class="fas fa-arrow-up text-primary col-2"></i>
+              <span class="text-primary col-2">${seeders}</span>
+              </div>
+            <div class="col-1"></div>
+            <div class="col-1 d-flex justify-content-between align-items-center">
+              <span class="text-danger mr-4 col-8">Leechers</span>
+              <i class="fas fa-arrow-down text-danger col-2"></i>
+              <span class="text-danger col-2">${leechers}</span>
+              </div>
+            <div class="col-1"></div>
+            </div>
+        `)
+        })
+      }
     })
     .catch(err => {
       console.log(err)
@@ -204,6 +341,7 @@ function onSignIn(googleUser) {
       localStorage.setItem('token', data.token)
       isAuth()
       swal.close()
+      home()
     })
     .catch(err => {
       swal.showValidationMessage(err)
@@ -219,7 +357,7 @@ function signOut() {
   $('#email').val('')
   $('#password').val('')
   // $('#content-anime-detail').empty()
-  // $('#content').empty()
+  $('#content').empty()
   Swal.fire({
     type: 'success',
     title: 'Logged out successfully',
@@ -248,12 +386,7 @@ $('#formRegister').on('submit', function(e) {
       localStorage.setItem('token', res.data.token)
       isAuth()
       swal.close()
-      Swal.fire({
-        type: 'success',
-        title: 'Logged in successfully',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      home()
     })
     .catch(err => {
       swal.showValidationMessage(err.message)
@@ -280,6 +413,7 @@ $('#formLogin').on('submit', function(e) {
       localStorage.setItem('token', res.data.token)
       isAuth()
       swal.close()
+      home()
     })
     .catch(err => {
       swal.showValidationMessage(err.message)
