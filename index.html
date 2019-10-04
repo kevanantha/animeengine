@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="google-signin-client_id" content="25401005977-ok03n82ko5ihlv14h2jacbsf0b4bgmta.apps.googleusercontent.com">
 
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker|Rock+Salt&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.min.css">
     
@@ -12,8 +13,8 @@
   </head>
   <body style="background: #0000">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="navbar-brand" style="cursor: pointer" onclick="backToHome()">Anime Engine</div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+      <div class="navbar-brand" style="cursor: pointer; color: white;font-family: 'Rock Salt', cursive;" onclick="backToHome()">Anime Engine</div>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -22,9 +23,11 @@
         <ul class="navbar-nav mr-auto">
         </ul>
         <div class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" id="search-anime" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" onclick="searchAnime()">Search</button>
-          <button type="button" class="btn btn-danger content" style="margin-left: 1rem" onclick="signOut()">Logout</button>
+          <div class="search-anime">
+            <input class="form-control mr-sm-2" type="search" id="search-anime" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" onclick="searchAnime()">Search</button>
+          </div>
+          <button type="button" class="btn btn-outline-danger content" style="margin-left: 1rem" onclick="signOut()">Logout</button>
         </div>
       </div>
     </nav>
@@ -32,7 +35,7 @@
     <section class="login">
       <div class="container" style="height: 50vh; width: 55%; color: white;">
         <div class="card text-center" style="margin-top: 7rem; padding: 5rem 3rem; background: url(bg.jpg)">
-          <h2 style="margin-bottom: 3rem">Sign In</h2>
+          <h2 style="margin-bottom: 3rem;font-family: 'Permanent Marker'">Sign In</h2>
           <form id="formLogin">
             <div class="form-group row justify-content-center">
               <div class="col-sm-6">
@@ -71,7 +74,7 @@
     <section class="register">
       <div class="container" style="height: 50vh; width: 55%; color: white;">
         <div class="card text-center" style="margin-top: 7rem; padding: 5rem 3rem; background: url(bg.jpg)">
-          <h2 style="margin-bottom: 3rem">Sign Up</h2>
+          <h2 style="margin-bottom: 3rem;font-family: 'Permanent Marker'">Sign Up</h2>
           <form id="formRegister">
             <div class="form-group row justify-content-center">
               <div class="col-sm-6">
@@ -108,13 +111,14 @@
 
     <section class="content" id="content-section">
       <div class="container">
-        <h2 class="text-center" id="upcomingText" style="margin: 2rem 0">Upcoming Animes</h2>
+        <h1 class="text-center" style="margin: 2rem 0;font-family: 'Permanent Marker', cursive;">Upcoming Animes</h1>
         <div class="row" id="content"></div>
       </div>
     </section>
 
     <section id="content-anime-detail-section">
       <div class="container">
+          <h1 class="text-center" style="margin: 2rem 0; font-family: 'Permanent Marker', cursive;">Anime Detail</h1>
         <div class="row" id="content-anime-detail">
         </div>
       </div>
