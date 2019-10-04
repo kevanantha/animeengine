@@ -6,42 +6,36 @@ $(document).ready(function() {
   })
     .then(({ data }) => {
       data.map(res => {
-        $('#content').append(`
-        <div class="col-md-6">
-          <div class="card mb-3" style="max-width: 540px;">
-            <div class="row no-gutters">
-              <div class="col-md-4">
-                <img src="${res.image_url}" class="card-img" alt="${res.title}">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <a href="${res.url}">${res.title}</a>
-                  </h5>
-                  <p class="card-text">${res.synopsis}</p>
-                  <p class="card-text"><small class="text-muted">Start Date: ${res.start_date ? res.start_date : 'N/A'}</small></p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-xl">Extra large modal</button>
-
-        <div class="modal fade bd-example-modal-xl" tabindex="-1" role="dialog" aria-labelledby="myExtraLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-              ...
-            </div>
-          </div>
-        </div>
-        `)
+        $('#content').append(animeCard(res))
       })
     })
     .catch(err => {
       swal.showValidationMessage(err.message)
     })
 })
+
+function animeCard(res) {
+  return `
+    <div class="col-md-6">
+      <div class="card mb-3" style="max-width: 540px;">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="${res.image_url}" class="card-img" alt="${res.title}">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="${res.url}">${res.title}</a>
+              </h5>
+              <p class="card-text">${res.synopsis}</p>
+              <p class="card-text"><small class="text-muted">Start Date: ${res.start_date ? res.start_date : 'N/A'}</small></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `
+}
 
 function isAuth() {
   if (localStorage.getItem('token')) {
