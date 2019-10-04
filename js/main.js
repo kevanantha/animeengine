@@ -125,6 +125,64 @@ function detail(id) {
     })
 }
 
+function animeCardDetailKitsu(data) {
+  const { attributes: res } = data
+  return `
+    <button class="btn btn-primary btn-lg" style="cursor: pointer; margin: 2rem 0;" onclick="backToHome()">Back</button>
+    <div class="col-md-12">
+      <div class="card" style="min-width: 540px;">
+        <div class="row no-gutters">
+          <div class="col-md-4">
+            <img src="${res.posterImage.original}" class="card-img" alt="${res.titles.en}">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body" style="padding: 3rem">
+              <h5 class="card-title">
+                ${res.titles.en}
+                <p class="card-text"><small class="text-muted">${res.titles.ja_jp}</small></p>
+              </h5>
+              <p class="card-text">${res.synopsis ? res.synopsis : ''}</p>
+              <p class="card-text">Average Rating: ${res.averageRating ? res.averageRating : 'N/A'}</p>
+              <p class="card-text">Start Date: ${res.startDate ? res.startDate : 'N/A'}</p>
+              <p class="card-text">End Date: ${res.endDate ? res.endDate : 'N/A'}</p>
+              <p class="card-text">Type: ${res.subtype ? res.subtype : 'N/A'}</p>
+              <p class="card-text">Next Release: ${res.nextRelease ? res.nextRelease : 'N/A'}</p>
+              <p class="card-text">Status: ${res.status ? res.status : 'N/A'}</p>
+              <p class="card-text">User: ${res.userCount ? res.userCount : 'N/A'}</p>
+              <p class="card-text">Favorites: ${res.favoritesCount ? res.favoritesCount : 'N/A'}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  `
+}
+
+function detailKitsu(id) {
+  console.log(id)
+  $('#upcomingText').hide()
+  $('#content-section').hide()
+  swal.fire({
+    title: 'Fecthing Detail',
+    onOpen: () => {
+      swal.showLoading()
+    }
+  })
+  axios({
+    method: 'get',
+    url: `http://localhost:3000/kitsu/anime/${id}`,
+    data: { id }
+  })
+    .then(({ data }) => {
+      $('#content-anime-detail').append(animeCardDetailKitsu(data))
+      $('#content-anime-detail').show()
+      swal.close()
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
 function onSignIn(googleUser) {
   const id_token = googleUser.getAuthResponse().id_token;
 
@@ -192,7 +250,7 @@ $('#formRegister').on('submit', function(e) {
       swal.close()
       Swal.fire({
         type: 'success',
-        title: 'Logged out successfully',
+        title: 'Logged in successfully',
         showConfirmButton: false,
         timer: 1500
       })
@@ -273,7 +331,7 @@ function generateCard(data) {
         </div>
       </div>
       <div class="mb-3 px-5">
-        <button class="btn btn-primary btn-block">Detail</button>
+        <button class="btn btn-primary btn-block" onclick="detailKitsu(${data.id})">Detail</button>
       </div>
     </div>
   </div>`
