@@ -32,7 +32,7 @@ function home() {
   })
   axios({
     method: 'get',
-    url: 'http://localhost:3000/home'
+    url: 'https://whispering-sierra-90651.herokuapp.com/home'
   })
     .then(({ data }) => {
       $('.title').show()
@@ -118,7 +118,7 @@ function detail(id) {
   })
   axios({
     method: 'get',
-    url: `http://localhost:3000/home/detail/${id}`,
+    url: `https://whispering-sierra-90651.herokuapp.com/detail/${id}`,
     data: { id }
   })
     .then(({ data }) => {
@@ -194,7 +194,7 @@ function detailKitsu(id) {
 
   axios({
     method: 'get',
-    url: `http://localhost:3000/kitsu/anime/${id}`,
+    url: `https://whispering-sierra-90651.herokuapp.com/kitsu/anime/${id}`,
     data: { id }
   })
     .then(({ data }) => {
@@ -205,7 +205,7 @@ function detailKitsu(id) {
       swal.close()
       return axios({
         method: 'get',
-        url: `http://localhost:3000/pantsu/?q=${title}&resolution=480p`
+        url: `https://whispering-sierra-90651.herokuapp.com/pantsu/?q=${title}&resolution=480p`
       })
     })
     .then(({ data }) => {
@@ -244,7 +244,7 @@ function detailKitsu(id) {
 
       return axios({
         method: 'get',
-        url: `http://localhost:3000/pantsu/?q=${title}&resolution=720p`
+        url: `https://whispering-sierra-90651.herokuapp.com/pantsu/?q=${title}&resolution=720p`
       })
     })
     .then(({ data }) => {
@@ -284,7 +284,7 @@ function detailKitsu(id) {
 
       return axios({
         method: 'get',
-        url: `http://localhost:3000/pantsu/?q=${title}&resolution=720p`
+        url: `https://whispering-sierra-90651.herokuapp.com/pantsu/?q=${title}&resolution=720p`
       })
     })
     .then(({ data }) => {
@@ -341,7 +341,7 @@ function onSignIn(googleUser) {
 
   axios({
     method: 'post',
-    url: 'http://localhost:3000/users/gsignin',
+    url: 'https://whispering-sierra-90651.herokuapp.com/users/gsignin',
     data: {
       token: id_token
     }
@@ -389,7 +389,7 @@ $('#formRegister').on('submit', function(e) {
   })
   axios({
     method: 'post',
-    url: 'http://localhost:3000/users/register',
+    url: 'https://whispering-sierra-90651.herokuapp.com/users/register',
     data: {
       email: $('#emailRegis').val(),
       password: $('#passwordRegis').val(),
@@ -422,7 +422,7 @@ $('#formLogin').on('submit', function(e) {
   })
   axios({
     method: 'post',
-    url: 'http://localhost:3000/users/login',
+    url: 'https://whispering-sierra-90651.herokuapp.com/users/login',
     data: {
       email: $('#email').val(),
       password: $('#password').val(),
@@ -454,7 +454,7 @@ function searchAnime() {
 
   axios({
     method: 'get',
-    url: `http://localhost:3000/kitsu/?q=${$('#search-anime').val()}`
+    url: `https://whispering-sierra-90651.herokuapp.com/kitsu/?q=${$('#search-anime').val()}`
   }).then(({ data }) => {
     $('#search-anime').val('')
     data.forEach(el => $('#content').append(generateCard(el)))
