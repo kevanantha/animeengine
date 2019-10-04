@@ -14,13 +14,13 @@ function isAuth() {
     $('.login').show()
     $('.register').hide()
     $('.content').hide()
-    $('#upcomingText').hide()
+    $('.title').hide()
     $('#content-detail').hide()
   }
 }
 
 function home() {
-  $('#upcomingText').hide()
+  $('.title').hide()
   swal.fire({
     title: 'Fecthing Anime',
     onOpen: () => {
@@ -32,7 +32,7 @@ function home() {
     url: 'http://localhost:3000/home'
   })
     .then(({ data }) => {
-      $('#upcomingText').show()
+      $('.title').show()
       swal.close()
       data.map(res => {
         $('#content').append(animeCard(res))
@@ -101,8 +101,9 @@ function animeCardDetail(res) {
 }
 
 function detail(id) {
-  $('#upcomingText').hide()
+  $('.title').hide()
   $('#content-section').hide()
+  $('.title').show()
   swal.fire({
     title: 'Fecthing Detail',
     onOpen: () => {
@@ -127,7 +128,7 @@ function detail(id) {
 function animeCardDetailKitsu(data) {
   const { attributes: res } = data
   return `
-    <button class="btn btn-primary btn-lg" style="cursor: pointer; margin: 2rem 0;" onclick="backToHome()">Back</button>
+    <button class="btn btn-outline-primary btn-md" style="cursor: pointer; margin: 2rem 0; width: 10%" onclick="backToHome()">Back</button>
     <div class="col-md-12">
       <div class="card" style="min-width: 540px;">
         <div class="row no-gutters">
@@ -158,8 +159,7 @@ function animeCardDetailKitsu(data) {
 }
 
 function detailKitsu(id) {
-  console.log(id)
-  $('#upcomingText').hide()
+  $('.title').hide()
   $('#content-section').hide()
   swal.fire({
     title: 'Fecthing Detail',
@@ -173,6 +173,7 @@ function detailKitsu(id) {
     data: { id }
   })
     .then(({ data }) => {
+      $('.title').show()
       $('#content-anime-detail').append(animeCardDetailKitsu(data))
       $('#content-anime-detail').show()
       swal.close()
@@ -286,7 +287,7 @@ $('#formLogin').on('submit', function(e) {
 })
 
 function searchAnime() {
-  $('#upcomingText').hide()
+  $('.title').hide()
   $('#content').empty()
   Swal.fire({
     title: "Fetching Anime",
@@ -347,6 +348,7 @@ function signInForm() {
 }
 
 function backToHome() {
+  $('.title').hide()
   $('#content-anime-detail').empty()
   $('#content').empty()
   home()
