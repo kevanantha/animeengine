@@ -1,6 +1,6 @@
 $(document).ready(function() {
   isAuth()
-  home()
+  // home()
 })
 
 function isAuth() {
@@ -8,15 +8,18 @@ function isAuth() {
     $('.login').hide()
     $('.register').hide()
     $('.content').show()
+    home()
   } else {
     $('.login').show()
     $('.register').hide()
     $('.content').hide()
+    $('#upcomingText').hide()
     $('#content-detail').hide()
   }
 }
 
 function home() {
+  $('#upcomingText').hide()
   swal.fire({
     title: 'Fecthing Anime',
     onOpen: () => {
@@ -28,6 +31,7 @@ function home() {
     url: 'http://localhost:3000/home'
   })
     .then(({ data }) => {
+      $('#upcomingText').show()
       swal.close()
       data.map(res => {
         $('#content').append(animeCard(res))
@@ -98,6 +102,7 @@ function animeCardDetail(res) {
 }
 
 function detail(id) {
+  $('#upcomingText').hide()
   $('#content-section').hide()
   swal.fire({
     title: 'Fecthing Detail',
@@ -111,7 +116,6 @@ function detail(id) {
     data: { id }
   })
     .then(({ data }) => {
-      $('#content-section').hide()
       $('#content-anime-detail').append(animeCardDetail(data))
       $('#content-anime-detail').show()
       swal.close()
@@ -141,12 +145,7 @@ function onSignIn(googleUser) {
     .then(({ data }) => {
       localStorage.setItem('token', data.token)
       isAuth()
-      Swal.fire({
-        type: 'success',
-        title: 'Logged in successfully',
-        showConfirmButton: false,
-        timer: 1500
-      })
+      swal.close()
     })
     .catch(err => {
       swal.showValidationMessage(err)
@@ -158,14 +157,16 @@ function signOut() {
   auth2.signOut().then(function() {
     localStorage.removeItem('token')
     isAuth()
-    $('#email').val('')
-    $('#password').val('')
-    Swal.fire({
-      type: 'success',
-      title: 'Logged out successfully',
-      showConfirmButton: false,
-      timer: 1500
-    })
+  })
+  $('#email').val('')
+  $('#password').val('')
+  // $('#content-anime-detail').empty()
+  // $('#content').empty()
+  Swal.fire({
+    type: 'success',
+    title: 'Logged out successfully',
+    showConfirmButton: false,
+    timer: 1500
   })
 }
 
@@ -228,7 +229,7 @@ $('#formLogin').on('submit', function(e) {
 })
 
 function searchAnime() {
-  $('#content-section').hide()
+  $('#upcomingText').hide()
   $('#content').empty()
   Swal.fire({
     title: "Fetching Anime",
@@ -241,8 +242,9 @@ function searchAnime() {
     method: 'get',
     url: `http://localhost:3000/kitsu/?q=${$('#search-anime').val()}`
   }).then(({ data }) => {
-    $('#content').empty()
-    data.map(el => $('#content').append(generateCard(el)))
+    $('#search-anime').val('')
+    data.forEach(el => $('#content').append(generateCard(el)))
+    $('#content').show()
     Swal.close()
   }).catch(err => {
     console.log(err)
@@ -254,29 +256,28 @@ function searchAnime() {
   })
 }
 
-        function generateCard(data) {
-          console.log(data)
-            const { attributes } = data
-            return `
-            <div class="col-lg-2 col-md-4 col-sm-6 my-3">
-                <div class="card d-flex flex-column justify-content-between" style="height: 80vh">
-                    <div>
-                        <img src="${attributes.posterImage.medium}" class="card-img-top"
-                            alt="${attributes.slug}">
-                        <div class="card-body">
-                            <h5 class="card-title">${attributes.canonicalTitle}</h5>
-                            <p class="card-text">${attributes.titles.ja_jp}</p>
-                            <p class="card-text">Rating: ${!attributes.averageRating ? "No Rating" : attributes.ageRating}</p>
-                            <p class="card-text">Status: ${attributes.status}</p>
-                            <p class="card-text">Age Rating: ${!attributes.ageRating ? "Not Rated Yet" : attributes.ageRating}</p>
-                        </div>
-                    </div>
-                    <div class="mb-3 px-5">
-                        <button class="btn btn-primary btn-block">Detail</button>
-                    </div>
-                </div>
-            </div>`
-        }
+function generateCard(data) {
+  const { attributes } = data
+  return `
+  <div class="col-lg-4 col-md-4 col-sm-6 my-3">
+    <div class="card d-flex flex-column justify-content-between" style="height: 80vh">
+      <div>
+        <img src="${attributes.posterImage.medium}" class="card-img-top"
+          alt="${attributes.slug}">
+        <div class="card-body">
+          <h5 class="card-title">${attributes.canonicalTitle}</h5>
+          <p class="card-text">${attributes.titles.ja_jp}</p>
+          <p class="card-text">Rating: ${!attributes.averageRating ? "No Rating" : attributes.ageRating}</p>
+          <p class="card-text">Status: ${attributes.status}</p>
+          <p class="card-text">Age Rating: ${!attributes.ageRating ? "Not Rated Yet" : attributes.ageRating}</p>
+        </div>
+      </div>
+      <div class="mb-3 px-5">
+        <button class="btn btn-primary btn-block">Detail</button>
+      </div>
+    </div>
+  </div>`
+}
 
 function signUpForm() {
   $('.login').hide()
@@ -290,6 +291,7 @@ function signInForm() {
 
 function backToHome() {
   $('#content-anime-detail').empty()
-  $('#content').show()
+  $('#content').empty()
+  home()
   isAuth()
 }
